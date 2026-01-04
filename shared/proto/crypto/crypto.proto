@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package crypto;
+
+option go_package = "crypto-platform/shared/proto/crypto;pbCrypto";
+
+service CryptoService {
+  rpc GetPriceInfo(GetPriceInfoRequest) returns (GetPriceInfoResponse) {}
+}
+
+message GetPriceInfoRequest {
+  repeated string symbols = 1;
+  bool is_refetch = 2;
+}
+
+message GetPriceInfoResponse {
+  repeated PriceInfo price_infos = 1;
+}
+
+message PriceInfo {
+  string symbol = 1;
+  string last_updated_at = 2;
+  string price = 3;
+  string high = 4;
+  string low = 5;
+  string open = 6;
+  string close = 7;
+  string base_volume = 8;
+  string quote_volume = 9;
+  string change = 10;
+  string change_percent = 11;
+}

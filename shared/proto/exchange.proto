@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package crypto;
+
+option go_package = "crypto-platform/shared/proto/crypto/gen;pbExchange";
