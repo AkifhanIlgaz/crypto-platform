@@ -2,7 +2,7 @@
 
 set -e
 
-vault login $VAULT_DEV_ROOT_TOKEN_ID
+vault login "${VAULT_DEV_ROOT_TOKEN_ID}"
 
 # Verileri .env.example'dan al
 vault kv put secret/database/postgres \

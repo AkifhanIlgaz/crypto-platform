@@ -1,10 +1,13 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type PriceInfo struct {
 	ID            uint      `gorm:"primaryKey"`
-	Symbol        string    `gorm:"column:symbol;uniqueIndex"`
+	Exchange      string    `gorm:"column:exchange;uniqueIndex:uniq_exchange_symbol"`
+	Symbol        string    `gorm:"column:symbol;uniqueIndex:uniq_exchange_symbol"`
 	LastUpdatedAt time.Time `gorm:"column:last_updated_at"`
 	Price         float64   `gorm:"column:price"`
 	High          float64   `gorm:"column:high"`

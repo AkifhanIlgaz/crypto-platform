@@ -23,7 +23,7 @@ const (
 
 type GetPriceInfoRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Symbols       []string               `protobuf:"bytes,1,rep,name=symbols,proto3" json:"symbols,omitempty"`
+	Symbol        string                 `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol,omitempty"`
 	IsRefetch     bool                   `protobuf:"varint,2,opt,name=is_refetch,json=isRefetch,proto3" json:"is_refetch,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -59,11 +59,11 @@ func (*GetPriceInfoRequest) Descriptor() ([]byte, []int) {
 	return file_crypto_crypto_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetPriceInfoRequest) GetSymbols() []string {
+func (x *GetPriceInfoRequest) GetSymbol() string {
 	if x != nil {
-		return x.Symbols
+		return x.Symbol
 	}
-	return nil
+	return ""
 }
 
 func (x *GetPriceInfoRequest) GetIsRefetch() bool {
@@ -120,16 +120,17 @@ func (x *GetPriceInfoResponse) GetPriceInfos() []*PriceInfo {
 type PriceInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Symbol        string                 `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol,omitempty"`
-	LastUpdatedAt string                 `protobuf:"bytes,2,opt,name=last_updated_at,json=lastUpdatedAt,proto3" json:"last_updated_at,omitempty"`
-	Price         string                 `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`
-	High          string                 `protobuf:"bytes,4,opt,name=high,proto3" json:"high,omitempty"`
-	Low           string                 `protobuf:"bytes,5,opt,name=low,proto3" json:"low,omitempty"`
-	Open          string                 `protobuf:"bytes,6,opt,name=open,proto3" json:"open,omitempty"`
-	Close         string                 `protobuf:"bytes,7,opt,name=close,proto3" json:"close,omitempty"`
-	BaseVolume    string                 `protobuf:"bytes,8,opt,name=base_volume,json=baseVolume,proto3" json:"base_volume,omitempty"`
-	QuoteVolume   string                 `protobuf:"bytes,9,opt,name=quote_volume,json=quoteVolume,proto3" json:"quote_volume,omitempty"`
-	Change        string                 `protobuf:"bytes,10,opt,name=change,proto3" json:"change,omitempty"`
-	ChangePercent string                 `protobuf:"bytes,11,opt,name=change_percent,json=changePercent,proto3" json:"change_percent,omitempty"`
+	Exchange      string                 `protobuf:"bytes,2,opt,name=exchange,proto3" json:"exchange,omitempty"`
+	LastUpdatedAt string                 `protobuf:"bytes,3,opt,name=last_updated_at,json=lastUpdatedAt,proto3" json:"last_updated_at,omitempty"`
+	Price         float64                `protobuf:"fixed64,4,opt,name=price,proto3" json:"price,omitempty"`
+	High          float64                `protobuf:"fixed64,5,opt,name=high,proto3" json:"high,omitempty"`
+	Low           float64                `protobuf:"fixed64,6,opt,name=low,proto3" json:"low,omitempty"`
+	Open          float64                `protobuf:"fixed64,7,opt,name=open,proto3" json:"open,omitempty"`
+	Close         float64                `protobuf:"fixed64,8,opt,name=close,proto3" json:"close,omitempty"`
+	BaseVolume    float64                `protobuf:"fixed64,9,opt,name=base_volume,json=baseVolume,proto3" json:"base_volume,omitempty"`
+	QuoteVolume   float64                `protobuf:"fixed64,10,opt,name=quote_volume,json=quoteVolume,proto3" json:"quote_volume,omitempty"`
+	Change        float64                `protobuf:"fixed64,11,opt,name=change,proto3" json:"change,omitempty"`
+	ChangePercent float64                `protobuf:"fixed64,12,opt,name=change_percent,json=changePercent,proto3" json:"change_percent,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -171,6 +172,13 @@ func (x *PriceInfo) GetSymbol() string {
 	return ""
 }
 
+func (x *PriceInfo) GetExchange() string {
+	if x != nil {
+		return x.Exchange
+	}
+	return ""
+}
+
 func (x *PriceInfo) GetLastUpdatedAt() string {
 	if x != nil {
 		return x.LastUpdatedAt
@@ -178,95 +186,96 @@ func (x *PriceInfo) GetLastUpdatedAt() string {
 	return ""
 }
 
-func (x *PriceInfo) GetPrice() string {
+func (x *PriceInfo) GetPrice() float64 {
 	if x != nil {
 		return x.Price
 	}
-	return ""
+	return 0
 }
 
-func (x *PriceInfo) GetHigh() string {
+func (x *PriceInfo) GetHigh() float64 {
 	if x != nil {
 		return x.High
 	}
-	return ""
+	return 0
 }
 
-func (x *PriceInfo) GetLow() string {
+func (x *PriceInfo) GetLow() float64 {
 	if x != nil {
 		return x.Low
 	}
-	return ""
+	return 0
 }
 
-func (x *PriceInfo) GetOpen() string {
+func (x *PriceInfo) GetOpen() float64 {
 	if x != nil {
 		return x.Open
 	}
-	return ""
+	return 0
 }
 
-func (x *PriceInfo) GetClose() string {
+func (x *PriceInfo) GetClose() float64 {
 	if x != nil {
 		return x.Close
 	}
-	return ""
+	return 0
 }
 
-func (x *PriceInfo) GetBaseVolume() string {
+func (x *PriceInfo) GetBaseVolume() float64 {
 	if x != nil {
 		return x.BaseVolume
 	}
-	return ""
+	return 0
 }
 
-func (x *PriceInfo) GetQuoteVolume() string {
+func (x *PriceInfo) GetQuoteVolume() float64 {
 	if x != nil {
 		return x.QuoteVolume
 	}
-	return ""
+	return 0
 }
 
-func (x *PriceInfo) GetChange() string {
+func (x *PriceInfo) GetChange() float64 {
 	if x != nil {
 		return x.Change
 	}
-	return ""
+	return 0
 }
 
-func (x *PriceInfo) GetChangePercent() string {
+func (x *PriceInfo) GetChangePercent() float64 {
 	if x != nil {
 		return x.ChangePercent
 	}
-	return ""
+	return 0
 }
 
 var File_crypto_crypto_proto protoreflect.FileDescriptor
 
 const file_crypto_crypto_proto_rawDesc = "" +
 	"\n" +
-	"\x13crypto/crypto.proto\x12\x06crypto\"N\n" +
-	"\x13GetPriceInfoRequest\x12\x18\n" +
-	"\asymbols\x18\x01 \x03(\tR\asymbols\x12\x1d\n" +
+	"\x13crypto/crypto.proto\x12\x06crypto\"L\n" +
+	"\x13GetPriceInfoRequest\x12\x16\n" +
+	"\x06symbol\x18\x01 \x01(\tR\x06symbol\x12\x1d\n" +
 	"\n" +
 	"is_refetch\x18\x02 \x01(\bR\tisRefetch\"J\n" +
 	"\x14GetPriceInfoResponse\x122\n" +
 	"\vprice_infos\x18\x01 \x03(\v2\x11.crypto.PriceInfoR\n" +
-	"priceInfos\"\xb4\x02\n" +
+	"priceInfos\"\xd0\x02\n" +
 	"\tPriceInfo\x12\x16\n" +
-	"\x06symbol\x18\x01 \x01(\tR\x06symbol\x12&\n" +
-	"\x0flast_updated_at\x18\x02 \x01(\tR\rlastUpdatedAt\x12\x14\n" +
-	"\x05price\x18\x03 \x01(\tR\x05price\x12\x12\n" +
-	"\x04high\x18\x04 \x01(\tR\x04high\x12\x10\n" +
-	"\x03low\x18\x05 \x01(\tR\x03low\x12\x12\n" +
-	"\x04open\x18\x06 \x01(\tR\x04open\x12\x14\n" +
-	"\x05close\x18\a \x01(\tR\x05close\x12\x1f\n" +
-	"\vbase_volume\x18\b \x01(\tR\n" +
+	"\x06symbol\x18\x01 \x01(\tR\x06symbol\x12\x1a\n" +
+	"\bexchange\x18\x02 \x01(\tR\bexchange\x12&\n" +
+	"\x0flast_updated_at\x18\x03 \x01(\tR\rlastUpdatedAt\x12\x14\n" +
+	"\x05price\x18\x04 \x01(\x01R\x05price\x12\x12\n" +
+	"\x04high\x18\x05 \x01(\x01R\x04high\x12\x10\n" +
+	"\x03low\x18\x06 \x01(\x01R\x03low\x12\x12\n" +
+	"\x04open\x18\a \x01(\x01R\x04open\x12\x14\n" +
+	"\x05close\x18\b \x01(\x01R\x05close\x12\x1f\n" +
+	"\vbase_volume\x18\t \x01(\x01R\n" +
 	"baseVolume\x12!\n" +
-	"\fquote_volume\x18\t \x01(\tR\vquoteVolume\x12\x16\n" +
-	"\x06change\x18\n" +
-	" \x01(\tR\x06change\x12%\n" +
-	"\x0echange_percent\x18\v \x01(\tR\rchangePercent2\\\n" +
+	"\fquote_volume\x18\n" +
+	" \x01(\x01R\vquoteVolume\x12\x16\n" +
+	"\x06change\x18\v \x01(\x01R\x06change\x12%\n" +
+	"\x0echange_percent\x18\f \x01(\x01R\rchangePercent2\\\n" +
 	"\rCryptoService\x12K\n" +
 	"\fGetPriceInfo\x12\x1b.crypto.GetPriceInfoRequest\x1a\x1c.crypto.GetPriceInfoResponse\"\x00B.Z,crypto-platform/shared/proto/crypto;pbCryptob\x06proto3"
 

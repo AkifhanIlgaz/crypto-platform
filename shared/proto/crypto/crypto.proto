@@ -9,7 +9,7 @@ service CryptoService {
 }
 
 message GetPriceInfoRequest {
-  repeated string symbols = 1;
+  string symbol = 1;
   bool is_refetch = 2;
 }
 
@@ -19,14 +19,15 @@ message GetPriceInfoResponse {
 
 message PriceInfo {
   string symbol = 1;
-  string last_updated_at = 2;
-  string price = 3;
-  string high = 4;
-  string low = 5;
-  string open = 6;
-  string close = 7;
-  string base_volume = 8;
-  string quote_volume = 9;
-  string change = 10;
-  string change_percent = 11;
+  string exchange = 2;
+  string last_updated_at = 3;
+  double price = 4;
+  double high = 5;
+  double low = 6;
+  double open = 7;
+  double close = 8;
+  double base_volume = 9;
+  double quote_volume = 10;
+  double change = 11;
+  double change_percent = 12;
 }

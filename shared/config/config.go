@@ -36,10 +36,10 @@ type Service struct {
 }
 
 type Config struct {
-	Vault     Vault   `mapstructure:"vault"`
-	Service   Service `mapstructure:"service"`
-	Postgres  Postgres
-	Exchanges Exchanges
+	Vault         Vault   `mapstructure:"vault"`
+	CryptoService Service `mapstructure:"crypto-service"`
+	Postgres      Postgres
+	Exchanges     Exchanges
 }
 
 func Load() (*Config, error) {
