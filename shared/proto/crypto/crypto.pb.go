@@ -21,28 +21,26 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetPriceInfoRequest struct {
+type GetPriceInfosRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Symbol        string                 `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol,omitempty"`
-	IsRefetch     bool                   `protobuf:"varint,2,opt,name=is_refetch,json=isRefetch,proto3" json:"is_refetch,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetPriceInfoRequest) Reset() {
-	*x = GetPriceInfoRequest{}
+func (x *GetPriceInfosRequest) Reset() {
+	*x = GetPriceInfosRequest{}
 	mi := &file_crypto_crypto_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetPriceInfoRequest) String() string {
+func (x *GetPriceInfosRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetPriceInfoRequest) ProtoMessage() {}
+func (*GetPriceInfosRequest) ProtoMessage() {}
 
-func (x *GetPriceInfoRequest) ProtoReflect() protoreflect.Message {
+func (x *GetPriceInfosRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_crypto_crypto_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -54,47 +52,121 @@ func (x *GetPriceInfoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetPriceInfoRequest.ProtoReflect.Descriptor instead.
-func (*GetPriceInfoRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetPriceInfosRequest.ProtoReflect.Descriptor instead.
+func (*GetPriceInfosRequest) Descriptor() ([]byte, []int) {
 	return file_crypto_crypto_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetPriceInfoRequest) GetSymbol() string {
-	if x != nil {
-		return x.Symbol
-	}
-	return ""
+type RefetchPriceInfosRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetPriceInfoRequest) GetIsRefetch() bool {
+func (x *RefetchPriceInfosRequest) Reset() {
+	*x = RefetchPriceInfosRequest{}
+	mi := &file_crypto_crypto_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefetchPriceInfosRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefetchPriceInfosRequest) ProtoMessage() {}
+
+func (x *RefetchPriceInfosRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_crypto_crypto_proto_msgTypes[1]
 	if x != nil {
-		return x.IsRefetch
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefetchPriceInfosRequest.ProtoReflect.Descriptor instead.
+func (*RefetchPriceInfosRequest) Descriptor() ([]byte, []int) {
+	return file_crypto_crypto_proto_rawDescGZIP(), []int{1}
+}
+
+type RefetchPriceInfosResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefetchPriceInfosResponse) Reset() {
+	*x = RefetchPriceInfosResponse{}
+	mi := &file_crypto_crypto_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefetchPriceInfosResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefetchPriceInfosResponse) ProtoMessage() {}
+
+func (x *RefetchPriceInfosResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_crypto_crypto_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefetchPriceInfosResponse.ProtoReflect.Descriptor instead.
+func (*RefetchPriceInfosResponse) Descriptor() ([]byte, []int) {
+	return file_crypto_crypto_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *RefetchPriceInfosResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
 	}
 	return false
 }
 
-type GetPriceInfoResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PriceInfos    []*PriceInfo           `protobuf:"bytes,1,rep,name=price_infos,json=priceInfos,proto3" json:"price_infos,omitempty"`
+func (x *RefetchPriceInfosResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type GetPriceInfosResponse struct {
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Prices        map[string]*ExchangePriceList `protobuf:"bytes,1,rep,name=prices,proto3" json:"prices,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetPriceInfoResponse) Reset() {
-	*x = GetPriceInfoResponse{}
-	mi := &file_crypto_crypto_proto_msgTypes[1]
+func (x *GetPriceInfosResponse) Reset() {
+	*x = GetPriceInfosResponse{}
+	mi := &file_crypto_crypto_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetPriceInfoResponse) String() string {
+func (x *GetPriceInfosResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetPriceInfoResponse) ProtoMessage() {}
+func (*GetPriceInfosResponse) ProtoMessage() {}
 
-func (x *GetPriceInfoResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_crypto_crypto_proto_msgTypes[1]
+func (x *GetPriceInfosResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_crypto_crypto_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -105,21 +177,64 @@ func (x *GetPriceInfoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetPriceInfoResponse.ProtoReflect.Descriptor instead.
-func (*GetPriceInfoResponse) Descriptor() ([]byte, []int) {
-	return file_crypto_crypto_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use GetPriceInfosResponse.ProtoReflect.Descriptor instead.
+func (*GetPriceInfosResponse) Descriptor() ([]byte, []int) {
+	return file_crypto_crypto_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetPriceInfoResponse) GetPriceInfos() []*PriceInfo {
+func (x *GetPriceInfosResponse) GetPrices() map[string]*ExchangePriceList {
 	if x != nil {
-		return x.PriceInfos
+		return x.Prices
 	}
 	return nil
 }
 
-type PriceInfo struct {
+type ExchangePriceList struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Symbol        string                 `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol,omitempty"`
+	Exchanges     []*ExchangePrice       `protobuf:"bytes,1,rep,name=exchanges,proto3" json:"exchanges,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExchangePriceList) Reset() {
+	*x = ExchangePriceList{}
+	mi := &file_crypto_crypto_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExchangePriceList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExchangePriceList) ProtoMessage() {}
+
+func (x *ExchangePriceList) ProtoReflect() protoreflect.Message {
+	mi := &file_crypto_crypto_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExchangePriceList.ProtoReflect.Descriptor instead.
+func (*ExchangePriceList) Descriptor() ([]byte, []int) {
+	return file_crypto_crypto_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ExchangePriceList) GetExchanges() []*ExchangePrice {
+	if x != nil {
+		return x.Exchanges
+	}
+	return nil
+}
+
+type ExchangePrice struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	Exchange      string                 `protobuf:"bytes,2,opt,name=exchange,proto3" json:"exchange,omitempty"`
 	LastUpdatedAt string                 `protobuf:"bytes,3,opt,name=last_updated_at,json=lastUpdatedAt,proto3" json:"last_updated_at,omitempty"`
 	Price         float64                `protobuf:"fixed64,4,opt,name=price,proto3" json:"price,omitempty"`
@@ -135,21 +250,21 @@ type PriceInfo struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PriceInfo) Reset() {
-	*x = PriceInfo{}
-	mi := &file_crypto_crypto_proto_msgTypes[2]
+func (x *ExchangePrice) Reset() {
+	*x = ExchangePrice{}
+	mi := &file_crypto_crypto_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PriceInfo) String() string {
+func (x *ExchangePrice) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PriceInfo) ProtoMessage() {}
+func (*ExchangePrice) ProtoMessage() {}
 
-func (x *PriceInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_crypto_crypto_proto_msgTypes[2]
+func (x *ExchangePrice) ProtoReflect() protoreflect.Message {
+	mi := &file_crypto_crypto_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,89 +275,82 @@ func (x *PriceInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PriceInfo.ProtoReflect.Descriptor instead.
-func (*PriceInfo) Descriptor() ([]byte, []int) {
-	return file_crypto_crypto_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use ExchangePrice.ProtoReflect.Descriptor instead.
+func (*ExchangePrice) Descriptor() ([]byte, []int) {
+	return file_crypto_crypto_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *PriceInfo) GetSymbol() string {
-	if x != nil {
-		return x.Symbol
-	}
-	return ""
-}
-
-func (x *PriceInfo) GetExchange() string {
+func (x *ExchangePrice) GetExchange() string {
 	if x != nil {
 		return x.Exchange
 	}
 	return ""
 }
 
-func (x *PriceInfo) GetLastUpdatedAt() string {
+func (x *ExchangePrice) GetLastUpdatedAt() string {
 	if x != nil {
 		return x.LastUpdatedAt
 	}
 	return ""
 }
 
-func (x *PriceInfo) GetPrice() float64 {
+func (x *ExchangePrice) GetPrice() float64 {
 	if x != nil {
 		return x.Price
 	}
 	return 0
 }
 
-func (x *PriceInfo) GetHigh() float64 {
+func (x *ExchangePrice) GetHigh() float64 {
 	if x != nil {
 		return x.High
 	}
 	return 0
 }
 
-func (x *PriceInfo) GetLow() float64 {
+func (x *ExchangePrice) GetLow() float64 {
 	if x != nil {
 		return x.Low
 	}
 	return 0
 }
 
-func (x *PriceInfo) GetOpen() float64 {
+func (x *ExchangePrice) GetOpen() float64 {
 	if x != nil {
 		return x.Open
 	}
 	return 0
 }
 
-func (x *PriceInfo) GetClose() float64 {
+func (x *ExchangePrice) GetClose() float64 {
 	if x != nil {
 		return x.Close
 	}
 	return 0
 }
 
-func (x *PriceInfo) GetBaseVolume() float64 {
+func (x *ExchangePrice) GetBaseVolume() float64 {
 	if x != nil {
 		return x.BaseVolume
 	}
 	return 0
 }
 
-func (x *PriceInfo) GetQuoteVolume() float64 {
+func (x *ExchangePrice) GetQuoteVolume() float64 {
 	if x != nil {
 		return x.QuoteVolume
 	}
 	return 0
 }
 
-func (x *PriceInfo) GetChange() float64 {
+func (x *ExchangePrice) GetChange() float64 {
 	if x != nil {
 		return x.Change
 	}
 	return 0
 }
 
-func (x *PriceInfo) GetChangePercent() float64 {
+func (x *ExchangePrice) GetChangePercent() float64 {
 	if x != nil {
 		return x.ChangePercent
 	}
@@ -253,16 +361,20 @@ var File_crypto_crypto_proto protoreflect.FileDescriptor
 
 const file_crypto_crypto_proto_rawDesc = "" +
 	"\n" +
-	"\x13crypto/crypto.proto\x12\x06crypto\"L\n" +
-	"\x13GetPriceInfoRequest\x12\x16\n" +
-	"\x06symbol\x18\x01 \x01(\tR\x06symbol\x12\x1d\n" +
-	"\n" +
-	"is_refetch\x18\x02 \x01(\bR\tisRefetch\"J\n" +
-	"\x14GetPriceInfoResponse\x122\n" +
-	"\vprice_infos\x18\x01 \x03(\v2\x11.crypto.PriceInfoR\n" +
-	"priceInfos\"\xd0\x02\n" +
-	"\tPriceInfo\x12\x16\n" +
-	"\x06symbol\x18\x01 \x01(\tR\x06symbol\x12\x1a\n" +
+	"\x13crypto/crypto.proto\x12\x06crypto\"\x16\n" +
+	"\x14GetPriceInfosRequest\"\x1a\n" +
+	"\x18RefetchPriceInfosRequest\"O\n" +
+	"\x19RefetchPriceInfosResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\xb0\x01\n" +
+	"\x15GetPriceInfosResponse\x12A\n" +
+	"\x06prices\x18\x01 \x03(\v2).crypto.GetPriceInfosResponse.PricesEntryR\x06prices\x1aT\n" +
+	"\vPricesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12/\n" +
+	"\x05value\x18\x02 \x01(\v2\x19.crypto.ExchangePriceListR\x05value:\x028\x01\"H\n" +
+	"\x11ExchangePriceList\x123\n" +
+	"\texchanges\x18\x01 \x03(\v2\x15.crypto.ExchangePriceR\texchanges\"\xbc\x02\n" +
+	"\rExchangePrice\x12\x1a\n" +
 	"\bexchange\x18\x02 \x01(\tR\bexchange\x12&\n" +
 	"\x0flast_updated_at\x18\x03 \x01(\tR\rlastUpdatedAt\x12\x14\n" +
 	"\x05price\x18\x04 \x01(\x01R\x05price\x12\x12\n" +
@@ -275,9 +387,10 @@ const file_crypto_crypto_proto_rawDesc = "" +
 	"\fquote_volume\x18\n" +
 	" \x01(\x01R\vquoteVolume\x12\x16\n" +
 	"\x06change\x18\v \x01(\x01R\x06change\x12%\n" +
-	"\x0echange_percent\x18\f \x01(\x01R\rchangePercent2\\\n" +
-	"\rCryptoService\x12K\n" +
-	"\fGetPriceInfo\x12\x1b.crypto.GetPriceInfoRequest\x1a\x1c.crypto.GetPriceInfoResponse\"\x00B.Z,crypto-platform/shared/proto/crypto;pbCryptob\x06proto3"
+	"\x0echange_percent\x18\f \x01(\x01R\rchangePercent2\xbb\x01\n" +
+	"\rCryptoService\x12N\n" +
+	"\rGetPriceInfos\x12\x1c.crypto.GetPriceInfosRequest\x1a\x1d.crypto.GetPriceInfosResponse\"\x00\x12Z\n" +
+	"\x11RefetchPriceInfos\x12 .crypto.RefetchPriceInfosRequest\x1a!.crypto.RefetchPriceInfosResponse\"\x00B.Z,crypto-platform/shared/proto/crypto;pbCryptob\x06proto3"
 
 var (
 	file_crypto_crypto_proto_rawDescOnce sync.Once
@@ -291,21 +404,29 @@ func file_crypto_crypto_proto_rawDescGZIP() []byte {
 	return file_crypto_crypto_proto_rawDescData
 }
 
-var file_crypto_crypto_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_crypto_crypto_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_crypto_crypto_proto_goTypes = []any{
-	(*GetPriceInfoRequest)(nil),  // 0: crypto.GetPriceInfoRequest
-	(*GetPriceInfoResponse)(nil), // 1: crypto.GetPriceInfoResponse
-	(*PriceInfo)(nil),            // 2: crypto.PriceInfo
+	(*GetPriceInfosRequest)(nil),      // 0: crypto.GetPriceInfosRequest
+	(*RefetchPriceInfosRequest)(nil),  // 1: crypto.RefetchPriceInfosRequest
+	(*RefetchPriceInfosResponse)(nil), // 2: crypto.RefetchPriceInfosResponse
+	(*GetPriceInfosResponse)(nil),     // 3: crypto.GetPriceInfosResponse
+	(*ExchangePriceList)(nil),         // 4: crypto.ExchangePriceList
+	(*ExchangePrice)(nil),             // 5: crypto.ExchangePrice
+	nil,                               // 6: crypto.GetPriceInfosResponse.PricesEntry
 }
 var file_crypto_crypto_proto_depIdxs = []int32{
-	2, // 0: crypto.GetPriceInfoResponse.price_infos:type_name -> crypto.PriceInfo
-	0, // 1: crypto.CryptoService.GetPriceInfo:input_type -> crypto.GetPriceInfoRequest
-	1, // 2: crypto.CryptoService.GetPriceInfo:output_type -> crypto.GetPriceInfoResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	6, // 0: crypto.GetPriceInfosResponse.prices:type_name -> crypto.GetPriceInfosResponse.PricesEntry
+	5, // 1: crypto.ExchangePriceList.exchanges:type_name -> crypto.ExchangePrice
+	4, // 2: crypto.GetPriceInfosResponse.PricesEntry.value:type_name -> crypto.ExchangePriceList
+	0, // 3: crypto.CryptoService.GetPriceInfos:input_type -> crypto.GetPriceInfosRequest
+	1, // 4: crypto.CryptoService.RefetchPriceInfos:input_type -> crypto.RefetchPriceInfosRequest
+	3, // 5: crypto.CryptoService.GetPriceInfos:output_type -> crypto.GetPriceInfosResponse
+	2, // 6: crypto.CryptoService.RefetchPriceInfos:output_type -> crypto.RefetchPriceInfosResponse
+	5, // [5:7] is the sub-list for method output_type
+	3, // [3:5] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_crypto_crypto_proto_init() }
@@ -319,7 +440,7 @@ func file_crypto_crypto_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_crypto_crypto_proto_rawDesc), len(file_crypto_crypto_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

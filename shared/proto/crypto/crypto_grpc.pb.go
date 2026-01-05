@@ -19,14 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CryptoService_GetPriceInfo_FullMethodName = "/crypto.CryptoService/GetPriceInfo"
+	CryptoService_GetPriceInfos_FullMethodName     = "/crypto.CryptoService/GetPriceInfos"
+	CryptoService_RefetchPriceInfos_FullMethodName = "/crypto.CryptoService/RefetchPriceInfos"
 )
 
 // CryptoServiceClient is the client API for CryptoService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CryptoServiceClient interface {
-	GetPriceInfo(ctx context.Context, in *GetPriceInfoRequest, opts ...grpc.CallOption) (*GetPriceInfoResponse, error)
+	GetPriceInfos(ctx context.Context, in *GetPriceInfosRequest, opts ...grpc.CallOption) (*GetPriceInfosResponse, error)
+	RefetchPriceInfos(ctx context.Context, in *RefetchPriceInfosRequest, opts ...grpc.CallOption) (*RefetchPriceInfosResponse, error)
 }
 
 type cryptoServiceClient struct {
@@ -37,10 +39,20 @@ func NewCryptoServiceClient(cc grpc.ClientConnInterface) CryptoServiceClient {
 	return &cryptoServiceClient{cc}
 }
 
-func (c *cryptoServiceClient) GetPriceInfo(ctx context.Context, in *GetPriceInfoRequest, opts ...grpc.CallOption) (*GetPriceInfoResponse, error) {
+func (c *cryptoServiceClient) GetPriceInfos(ctx context.Context, in *GetPriceInfosRequest, opts ...grpc.CallOption) (*GetPriceInfosResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetPriceInfoResponse)
-	err := c.cc.Invoke(ctx, CryptoService_GetPriceInfo_FullMethodName, in, out, cOpts...)
+	out := new(GetPriceInfosResponse)
+	err := c.cc.Invoke(ctx, CryptoService_GetPriceInfos_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cryptoServiceClient) RefetchPriceInfos(ctx context.Context, in *RefetchPriceInfosRequest, opts ...grpc.CallOption) (*RefetchPriceInfosResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RefetchPriceInfosResponse)
+	err := c.cc.Invoke(ctx, CryptoService_RefetchPriceInfos_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +63,8 @@ func (c *cryptoServiceClient) GetPriceInfo(ctx context.Context, in *GetPriceInfo
 // All implementations must embed UnimplementedCryptoServiceServer
 // for forward compatibility.
 type CryptoServiceServer interface {
-	GetPriceInfo(context.Context, *GetPriceInfoRequest) (*GetPriceInfoResponse, error)
+	GetPriceInfos(context.Context, *GetPriceInfosRequest) (*GetPriceInfosResponse, error)
+	RefetchPriceInfos(context.Context, *RefetchPriceInfosRequest) (*RefetchPriceInfosResponse, error)
 	mustEmbedUnimplementedCryptoServiceServer()
 }
 
@@ -62,8 +75,11 @@ type CryptoServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCryptoServiceServer struct{}
 
-func (UnimplementedCryptoServiceServer) GetPriceInfo(context.Context, *GetPriceInfoRequest) (*GetPriceInfoResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetPriceInfo not implemented")
+func (UnimplementedCryptoServiceServer) GetPriceInfos(context.Context, *GetPriceInfosRequest) (*GetPriceInfosResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetPriceInfos not implemented")
+}
+func (UnimplementedCryptoServiceServer) RefetchPriceInfos(context.Context, *RefetchPriceInfosRequest) (*RefetchPriceInfosResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RefetchPriceInfos not implemented")
 }
 func (UnimplementedCryptoServiceServer) mustEmbedUnimplementedCryptoServiceServer() {}
 func (UnimplementedCryptoServiceServer) testEmbeddedByValue()                       {}
@@ -86,20 +102,38 @@ func RegisterCryptoServiceServer(s grpc.ServiceRegistrar, srv CryptoServiceServe
 	s.RegisterService(&CryptoService_ServiceDesc, srv)
 }
 
-func _CryptoService_GetPriceInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPriceInfoRequest)
+func _CryptoService_GetPriceInfos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPriceInfosRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CryptoServiceServer).GetPriceInfo(ctx, in)
+		return srv.(CryptoServiceServer).GetPriceInfos(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CryptoService_GetPriceInfo_FullMethodName,
+		FullMethod: CryptoService_GetPriceInfos_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CryptoServiceServer).GetPriceInfo(ctx, req.(*GetPriceInfoRequest))
+		return srv.(CryptoServiceServer).GetPriceInfos(ctx, req.(*GetPriceInfosRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CryptoService_RefetchPriceInfos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefetchPriceInfosRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CryptoServiceServer).RefetchPriceInfos(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CryptoService_RefetchPriceInfos_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CryptoServiceServer).RefetchPriceInfos(ctx, req.(*RefetchPriceInfosRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +146,12 @@ var CryptoService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CryptoServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetPriceInfo",
-			Handler:    _CryptoService_GetPriceInfo_Handler,
+			MethodName: "GetPriceInfos",
+			Handler:    _CryptoService_GetPriceInfos_Handler,
+		},
+		{
+			MethodName: "RefetchPriceInfos",
+			Handler:    _CryptoService_RefetchPriceInfos_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -21,24 +21,26 @@ func NewCryptoServer(service *services.CryptoService) *CryptoServer {
 	}
 }
 
-func (s *CryptoServer) GetPriceInfo(ctx context.Context, req *pbCrypto.GetPriceInfoRequest) (*pbCrypto.GetPriceInfoResponse, error) {
-	if req.IsRefetch {
-		prices, err := s.service.GetFromExchanges(req.Symbol)
-		if err != nil {
-			return nil, status.Errorf(codes.Internal, "failed to get prices from exchanges: %v", err)
-		}
+func (s *CryptoServer) GetPriceInfos(ctx context.Context, req *pbCrypto.GetPriceInfosRequest) (*pbCrypto.GetPriceInfosResponse, error) {
 
-		return &pbCrypto.GetPriceInfoResponse{
-			PriceInfos: mappers.PriceInfosToProto(prices),
-		}, nil
-	}
-
-	prices, err := s.service.GetFromDB(req.Symbol)
+	prices, err := s.service.Get()
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to get prices from database: %v", err)
 	}
 
-	return &pbCrypto.GetPriceInfoResponse{
-		PriceInfos: mappers.PriceInfosToProto(prices),
+	return &pbCrypto.GetPriceInfosResponse{
+		Prices: mappers.PriceInfosToExchangePriceListMap(prices),
+	}, nil
+}
+
+func (s *CryptoServer) RefetchPriceInfos(ctx context.Context, req *pbCrypto.RefetchPriceInfosRequest) (*pbCrypto.RefetchPriceInfosResponse, error) {
+	err := s.service.Refetch()
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to get prices from exchanges: %v", err)
+	}
+
+	return &pbCrypto.RefetchPriceInfosResponse{
+		Success: true,
+		Message: "Basarili",
 	}, nil
 }

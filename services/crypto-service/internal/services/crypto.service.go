@@ -10,6 +10,8 @@ import (
 	ccxt "github.com/ccxt/ccxt/go/v4"
 )
 
+var symbols = []string{"BTC/USDT", "ETH/USDT", "BNB/USDT", "ADA/USDT", "XRP/USDT", "DOT/USDT", "SOL/USDT", "LTC/USDT", "DYDX/USDT", "DYM/USDT"}
+
 type CryptoService struct {
 	repo    repositories.CryptoRepository
 	kucoin  *ccxt.Kucoin
@@ -37,6 +39,15 @@ func NewCryptoService(repo repositories.CryptoRepository, exchanges config.Excha
 			if _, err := kucoin.LoadMarkets(); err != nil {
 				return nil, fmt.Errorf("[%s] Piyasalar yüklenirken hata oluştu: %v", "Kucoin", err)
 			}
+
+			tickers, err := kucoin.FetchTickers(ccxt.WithFetchTickersSymbols(symbols))
+			if err != nil {
+				return nil, fmt.Errorf("[%s] Ticker verisi çekilemedi: %v", "Kucoin", err)
+			}
+
+			for _, ticker := range tickers.Tickers {
+				repo.SetPriceInfo(mappers.TickerToPriceInfo(ticker, "Kucoin"))
+			}
 		case "binance":
 			binance := ccxt.NewBinance(map[string]any{
 				"apiKey":          cfg.APIKey,
@@ -51,6 +62,15 @@ func NewCryptoService(repo repositories.CryptoRepository, exchanges config.Excha
 			if _, err := binance.LoadMarkets(); err != nil {
 				return nil, fmt.Errorf("[%s] Piyasalar yüklenirken hata oluştu: %v", "Binance", err)
 			}
+
+			tickers, err := binance.FetchTickers(ccxt.WithFetchTickersSymbols(symbols))
+			if err != nil {
+				return nil, fmt.Errorf("[%s] Ticker verisi çekilemedi: %v", "Binance", err)
+			}
+
+			for _, ticker := range tickers.Tickers {
+				repo.SetPriceInfo(mappers.TickerToPriceInfo(ticker, "Binance"))
+			}
 		default:
 			return nil, fmt.Errorf("Geçersiz exchange: %s", name)
 		}
@@ -63,42 +83,32 @@ func NewCryptoService(repo repositories.CryptoRepository, exchanges config.Excha
 	}, nil
 }
 
-func (s *CryptoService) GetFromDB(symbol string) ([]*models.PriceInfo, error) {
-	priceInfos, err := s.repo.GetPriceInfo(symbol)
+func (s *CryptoService) Get() ([]*models.PriceInfo, error) {
+	priceInfos, err := s.repo.GetPriceInfo()
 	if err != nil {
 		return nil, err
 	}
 	return priceInfos, nil
 }
 
-func (s *CryptoService) GetFromExchanges(symbol string) ([]*models.PriceInfo, error) {
-	var priceInfos []*models.PriceInfo
-
-	ticker, err := s.kucoin.FetchTicker(symbol)
+func (s *CryptoService) Refetch() error {
+	tickers, err := s.kucoin.FetchTickers(ccxt.WithFetchTickersSymbols(symbols))
 	if err != nil {
-		return nil, fmt.Errorf("[%s] Ticker verisi çekilemedi: %v", "Kucoin", err)
+		return fmt.Errorf("[%s] Ticker verisi çekilemedi: %v", "Kucoin", err)
 	}
 
-	kucoinPriceInfo := mappers.TickerToPriceInfo(ticker, "Kucoin")
-
-	err = s.repo.SetPriceInfo(kucoinPriceInfo)
-	if err != nil {
-		return nil, err
-	}
-	priceInfos = append(priceInfos, kucoinPriceInfo)
-
-	ticker, err = s.binance.FetchTicker(symbol)
-	if err != nil {
-		return nil, fmt.Errorf("[%s] Ticker verisi çekilemedi: %v", "Binance", err)
+	for _, ticker := range tickers.Tickers {
+		s.repo.SetPriceInfo(mappers.TickerToPriceInfo(ticker, "Kucoin"))
 	}
 
-	binancePriceInfo := mappers.TickerToPriceInfo(ticker, "Binance")
-
-	err = s.repo.SetPriceInfo(binancePriceInfo)
+	tickers, err = s.binance.FetchTickers(ccxt.WithFetchTickersSymbols(symbols))
 	if err != nil {
-		return nil, err
+		return fmt.Errorf("[%s] Ticker verisi çekilemedi: %v", "Binance", err)
 	}
-	priceInfos = append(priceInfos, kucoinPriceInfo)
 
-	return priceInfos, nil
+	for _, ticker := range tickers.Tickers {
+		s.repo.SetPriceInfo(mappers.TickerToPriceInfo(ticker, "Binance"))
+	}
+
+	return nil
 }

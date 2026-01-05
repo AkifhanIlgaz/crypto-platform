@@ -8,7 +8,7 @@ import (
 )
 
 type CryptoRepository interface {
-	GetPriceInfo(symbol string) ([]*models.PriceInfo, error)
+	GetPriceInfo() ([]*models.PriceInfo, error)
 	SetPriceInfo(priceInfo *models.PriceInfo) error
 }
 
@@ -20,12 +20,13 @@ func NewCryptoRepository(db *gorm.DB) *cryptoRepository {
 	return &cryptoRepository{db: db}
 }
 
-func (r *cryptoRepository) GetPriceInfo(symbol string) ([]*models.PriceInfo, error) {
-	var priceInfo []*models.PriceInfo
-	if err := r.db.Find(&priceInfo, symbol).Error; err != nil {
+func (r *cryptoRepository) GetPriceInfo() ([]*models.PriceInfo, error) {
+	var priceInfos []*models.PriceInfo
+	if err := r.db.Find(&priceInfos).Error; err != nil {
 		return nil, err
 	}
-	return priceInfo, nil
+
+	return priceInfos, nil
 }
 
 func (r *cryptoRepository) SetPriceInfo(priceInfo *models.PriceInfo) error {

@@ -10,6 +10,8 @@ import (
 	ccxt "github.com/ccxt/ccxt/go/v4"
 )
 
+var symbols = []string{"BTC/USDT", "ETH/USDT", "BNB/USDT", "ADA/USDT", "XRP/USDT", "DOT/USDT", "SOL/USDT", "DYM/USDT", "DYDX/USDT", "LINK/USDT"}
+
 func main() {
 	_, err := config.Load()
 	if err != nil {
@@ -32,14 +34,16 @@ func main() {
 	// 	log.Fatalf("[%s] Piyasalar yüklenirken hata oluştu: %v", "Binanceß", err)
 	// }
 
-	symbol := "XAGX/USDT"
+	tickers, err := kucoin.FetchTickers(ccxt.WithFetchTickersSymbols(symbols))
 
-	ticker, err := kucoin.FetchTicker(symbol)
 	if err != nil {
 		log.Fatalf("[%s] Ticker verisi çekilemedi: %v", "Kucoin", err)
 	}
 
-	printTicker(ticker, "Kucoin")
+	for _, ticker := range tickers.Tickers {
+		printTicker(ticker, "Kucoin")
+	}
+
 	// if ticker.Last != nil {
 	// 	fmt.Printf("[%s] Son Fiyat: %.2f USDT\n", "Kucoin", *ticker.Last)
 	// }

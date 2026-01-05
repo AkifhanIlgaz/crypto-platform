@@ -26,9 +26,8 @@ func TickerToPriceInfo(ticker ccxt.Ticker, exchange string) *models.PriceInfo {
 	}
 }
 
-func priceInfoToProto(priceInfo *models.PriceInfo) *pbCrypto.PriceInfo {
-	return &pbCrypto.PriceInfo{
-		Symbol:        priceInfo.Symbol,
+func priceInfoToProto(priceInfo *models.PriceInfo) *pbCrypto.ExchangePrice {
+	return &pbCrypto.ExchangePrice{
 		High:          priceInfo.High,
 		Low:           priceInfo.Low,
 		Open:          priceInfo.Open,
@@ -43,10 +42,20 @@ func priceInfoToProto(priceInfo *models.PriceInfo) *pbCrypto.PriceInfo {
 	}
 }
 
-func PriceInfosToProto(priceInfos []*models.PriceInfo) []*pbCrypto.PriceInfo {
-	var protoPriceInfos []*pbCrypto.PriceInfo
+func PriceInfosToExchangePriceListMap(priceInfos []*models.PriceInfo) map[string]*pbCrypto.ExchangePriceList {
+	priceInfoMap := make(map[string]*pbCrypto.ExchangePriceList)
 	for _, priceInfo := range priceInfos {
-		protoPriceInfos = append(protoPriceInfos, priceInfoToProto(priceInfo))
+		list, ok := priceInfoMap[priceInfo.Symbol]
+		if !ok {
+			list = &pbCrypto.ExchangePriceList{
+				Exchanges: []*pbCrypto.ExchangePrice{priceInfoToProto(priceInfo)},
+			}
+			priceInfoMap[priceInfo.Symbol] = list
+			continue
+		}
+
+		list.Exchanges = append(list.Exchanges, priceInfoToProto(priceInfo))
+		priceInfoMap[priceInfo.Symbol] = list
 	}
-	return protoPriceInfos
+	return priceInfoMap
 }

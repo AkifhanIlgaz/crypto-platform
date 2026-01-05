@@ -46,12 +46,10 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	cryptoService.GetFromExchanges("BTC/USDT")
-
 	grpcSrv := grpc.NewServer()
 	pbCrypto.RegisterCryptoServiceServer(grpcSrv, grpcServer.NewCryptoServer(cryptoService))
 
-	log.Printf("Driver Service gRPC server listening on :%v", cfg.CryptoService.GRPCPort)
+	log.Printf("Crypto Service gRPC server listening on :%v", cfg.CryptoService.GRPCPort)
 	if err := grpcSrv.Serve(lis); err != nil {
 		log.Fatalf("failed to serve:  %v", err)
 	}
