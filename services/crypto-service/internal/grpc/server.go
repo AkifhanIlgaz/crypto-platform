@@ -22,7 +22,6 @@ func NewCryptoServer(service *services.CryptoService) *CryptoServer {
 }
 
 func (s *CryptoServer) GetPriceInfos(ctx context.Context, req *pbCrypto.GetPriceInfosRequest) (*pbCrypto.GetPriceInfosResponse, error) {
-
 	prices, err := s.service.Get()
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to get prices from database: %v", err)

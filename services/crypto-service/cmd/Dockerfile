@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Copy go mod files and vendor
 COPY go.mod go.sum ./
-COPY vendor/ ./vendor/
+RUN go mod download
 
 # Copy source files
 COPY shared/ ./shared/
@@ -15,7 +15,7 @@ COPY services/crypto-service/ ./services/crypto-service/
 
 # Build using vendor (no network needed)
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -mod=vendor -ldflags="-w -s" -a -installsuffix cgo \
+    go build  -ldflags="-w -s" -a -installsuffix cgo \
     -o crypto-service ./services/crypto-service/cmd/main.go
 
 # Run stage

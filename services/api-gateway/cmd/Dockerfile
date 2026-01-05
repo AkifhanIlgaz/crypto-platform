@@ -7,7 +7,8 @@ WORKDIR /app
 
 # Copy go mod files first (caching için)
 COPY go.mod go.sum ./
-COPY vendor/ ./vendor/
+
+RUN go mod download
 
 # Copy only necessary files
 COPY shared/ ./shared/
@@ -15,7 +16,7 @@ COPY services/api-gateway/ ./services/api-gateway/
 
 # Build with optimization flags
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -mod=vendor -ldflags="-w -s" -a -installsuffix cgo \
+    go build  -ldflags="-w -s" -a -installsuffix cgo \
     -o api-gateway ./services/api-gateway/cmd/main.go
 
 # Run stage
