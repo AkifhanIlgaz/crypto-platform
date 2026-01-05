@@ -1,0 +1,21 @@
+# Git
+.git
+.gitignore
+.github
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Build artifacts
+*.exe
+*.test
+*.out
+bin/
+dist/
+
+# Other services
+services/currency-service

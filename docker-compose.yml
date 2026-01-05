@@ -63,5 +63,30 @@ services:
     entrypoint: ["sh", "/vault-init.sh"]
     restart: no
 
+  crypto-service:
+    build:
+      context: .
+      dockerfile: services/crypto-service/cmd/Dockerfile
+    container_name: crypto-service
+    ports:
+      - "50051:50051"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      vault-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/api-gateway/cmd/Dockerfile
+    container_name: crypto-api-gateway
+    ports:
+      - "7777:7777"
+    depends_on:
+      - crypto-service
+    restart: unless-stopped
+
 volumes:
   postgres_data:

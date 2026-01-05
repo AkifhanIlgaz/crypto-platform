@@ -27,6 +27,10 @@ type Vault struct {
 	MountPath string `mapstructure:"mount_path"`
 }
 
+type Gateway struct {
+	Port string `mapstructure:"port"`
+}
+
 type Exchanges map[string]Exchange
 
 type Service struct {
@@ -39,6 +43,7 @@ type Config struct {
 	Vault         Vault   `mapstructure:"vault"`
 	CryptoService Service `mapstructure:"crypto-service"`
 	Postgres      Postgres
+	Gateway       Gateway `mapstructure:"gateway"`
 	Exchanges     Exchanges
 }
 
