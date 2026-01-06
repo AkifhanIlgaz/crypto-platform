@@ -5,7 +5,6 @@ import { Outfit } from "next/font/google";
 
 import { Providers } from "./providers";
 
-import { ThemeSwitch } from "@/components/themeSwitch";
 import { siteConfig } from "@/config/site";
 
 // Outfit font'unu yükle
@@ -49,8 +48,7 @@ export default function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-            <ThemeSwitch />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+            <main className="container mx-auto w-full pt-16 px-6 flex-grow">
               {children}
             </main>
           </div>

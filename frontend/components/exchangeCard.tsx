@@ -47,7 +47,7 @@ export default function ExchangeCard({
             className="font-semibold"
           >
             {isPositive ? "+" : ""}
-            {exchange.change_percent.toFixed(2)}%
+            {exchange.change_percent?.toFixed(2) ?? "N/A"}%
           </Chip>
           <span
             className={`text-sm font-medium ${

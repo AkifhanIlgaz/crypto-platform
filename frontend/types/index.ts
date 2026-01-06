@@ -26,10 +26,21 @@ export interface PricesData {
   [key: string]: CoinData;
 }
 
-export interface ApiResponse {
+export interface Currency {
+  code: string;
+  price: number;
+}
+
+export interface ApiResponse<T> {
   success: boolean;
   message: string;
-  data: {
-    prices: PricesData;
-  };
+  data: T;
 }
+
+export type CryptoPrices = {
+  prices: PricesData;
+};
+
+export type CurrencyPrices = {
+  currencies: Currency[];
+};

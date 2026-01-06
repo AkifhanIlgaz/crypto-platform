@@ -1,7 +1,9 @@
 "use client";
 
+import CurrencyTicker from "@/components/currenyTicker";
 import ExchangeCard from "@/components/exchangeCard";
-import { ApiResponse } from "@/types";
+import { ThemeSwitch } from "@/components/themeSwitch";
+import { ApiResponse, CryptoPrices, CurrencyPrices } from "@/types";
 import { formatDate, formatPrice } from "@/utils/format";
 import { Accordion, AccordionItem } from "@heroui/accordion";
 import { Button } from "@heroui/button";
@@ -20,29 +22,103 @@ export default function CryptoPage() {
     isLoading: isCryptoLoading,
     error,
     dataUpdatedAt,
-  } = useQuery<ApiResponse | null>({
+  } = useQuery<ApiResponse<CryptoPrices> | null>({
     queryKey: ["crypto"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:7777/api/crypto/prices");
-      return await res.json();
+      try {
+        const res = await fetch("http://localhost:7777/api/crypto/prices");
+
+        if (!res.ok) {
+          throw new Error(
+            `HTTP error! status: ${res.status} - ${res.statusText}`,
+          );
+        }
+
+        const data = await res.json();
+
+        if (!data || !data.success) {
+          throw new Error(data?.message || "Invalid response from server");
+        }
+
+        return data;
+      } catch (error) {
+        console.error("Error fetching crypto prices:", error);
+        throw error;
+      }
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    retry: 3,
+  });
+
+  const {
+    data: currencyData,
+    isLoading: isCurrencyLoading,
+    error: currencyError,
+  } = useQuery<ApiResponse<CurrencyPrices> | null>({
+    queryKey: ["currency"],
+    queryFn: async () => {
+      try {
+        const res = await fetch("http://localhost:7777/api/currency/prices");
+
+        if (!res.ok) {
+          throw new Error(
+            `HTTP error! status: ${res.status} - ${res.statusText}`,
+          );
+        }
+
+        const data = await res.json();
+        console.log("Currency data:", data);
+
+        if (!data || !data.success) {
+          throw new Error(data?.message || "Invalid response from server");
+        }
+
+        return data;
+      } catch (error) {
+        console.error("Error fetching currency prices:", error);
+        throw error;
+      }
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    retry: 3,
   });
 
   const { mutate: refetchCryptoPrices, isPending: isRefetchPending } =
     useMutation({
       mutationFn: async () => {
-        const res = await fetch("http://localhost:7777/api/crypto/refetch", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const cryptoRes = await fetch(
+          "http://localhost:7777/api/crypto/refetch",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        });
+        );
 
-        if (res.ok) {
+        if (cryptoRes.ok) {
           await queryClient.invalidateQueries({
             queryKey: ["crypto"],
+          });
+        } else {
+          throw new Error("Refetch failed");
+        }
+
+        const currencyRes = await fetch(
+          "http://localhost:7777/api/currency/refetch",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        if (currencyRes.ok) {
+          await queryClient.invalidateQueries({
+            queryKey: ["currency"],
           });
         } else {
           throw new Error("Refetch failed");
@@ -50,34 +126,38 @@ export default function CryptoPage() {
       },
       onSuccess: (data) => {
         addToast({
-          title: "Crypto Prices Updated",
-          description: "Crypto prices have been successfully updated.",
+          title: "Fiyatlar Güncellendi",
+          description:
+            "Kripto ve para birimleri fiyatları başarıyla güncellendi.",
           color: "success",
         });
       },
       onError: (error) => {
         addToast({
-          title: "Error",
-          description: "An error occurred while updating crypto prices.",
+          title: "Hata",
+          description: "Beklenmedik bir hata oluştu.",
           color: "danger",
         });
       },
     });
 
-  if (isCryptoLoading) {
+  if (isCryptoLoading || isCurrencyLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <Spinner size="lg" color="primary" />
-          <p className="mt-4 text-muted-foreground">
-            Kripto verileri yükleniyor...
-          </p>
+          <p className="mt-4 text-muted-foreground">Veriler yükleniyor...</p>
         </div>
       </div>
     );
   }
 
-  if (error || !cryptoData?.success) {
+  if (
+    error ||
+    currencyError ||
+    !cryptoData?.success ||
+    !currencyData?.success
+  ) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="max-w-md w-full">
@@ -93,8 +173,12 @@ export default function CryptoPage() {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
+      {currencyData?.success && currencyData.data.currencies && (
+        <div className="sticky top-0 z-50 shadow-sm mb-8">
+          <CurrencyTicker currencies={currencyData.data.currencies} />
+        </div>
+      )}
+      <div className=" mx-auto space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-bold text-foreground">
             Kripto Para Fiyatları
@@ -104,7 +188,9 @@ export default function CryptoPage() {
           </p>
         </div>
 
-        <div className="flex items-center justify-end gap-4 pt-2">
+        <div className="flex items-center justify-end gap-4 pt-2 mb-2">
+          <ThemeSwitch />
+
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span className="font-medium">Son Güncelleme:</span>
             <span className="text-foreground font-semibold">
@@ -163,7 +249,7 @@ export default function CryptoPage() {
                     }
                   >
                     {isPositive ? "+" : ""}
-                    {firstExchange.change_percent.toFixed(2)}%
+                    {firstExchange.change_percent?.toFixed(2) ?? "N/A"}%
                   </Chip>
                 </div>
               }
