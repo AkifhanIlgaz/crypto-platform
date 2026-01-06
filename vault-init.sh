@@ -13,6 +13,7 @@ vault kv put secret/database/postgres \
   port="${DB_PORT}" \
   ssl_mode="${DB_SSL_MODE}"
 
+
 vault kv put secret/exchange/kucoin \
     api_key="${KUCOIN_API_KEY}" \
     api_secret="${KUCOIN_API_SECRET}" \

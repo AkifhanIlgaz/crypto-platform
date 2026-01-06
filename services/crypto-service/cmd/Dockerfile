@@ -15,7 +15,7 @@ COPY services/crypto-service/ ./services/crypto-service/
 
 # Build using vendor (no network needed)
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build  -ldflags="-w -s" -a -installsuffix cgo \
+    go build -p 1  -ldflags="-w -s" -a -installsuffix cgo \
     -o crypto-service ./services/crypto-service/cmd/main.go
 
 # Run stage

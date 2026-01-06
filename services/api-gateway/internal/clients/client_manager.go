@@ -18,7 +18,7 @@ type ClientManager struct {
 }
 
 func NewClientManager(cryptoConfig *config.Service) (*ClientManager, error) {
-	addr := fmt.Sprintf("localhost:%s", cryptoConfig.GRPCPort)
+	addr := fmt.Sprintf("%s:%s", cryptoConfig.Name, cryptoConfig.GRPCPort)
 	cryptoConn, err := createGRPCConnection(addr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to crypto service: %w", err)
