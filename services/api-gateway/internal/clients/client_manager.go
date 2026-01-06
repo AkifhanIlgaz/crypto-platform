@@ -3,6 +3,7 @@ package clients
 import (
 	"crypto-platform/shared/config"
 	pbCrypto "crypto-platform/shared/proto/crypto"
+	pbCurrency "crypto-platform/shared/proto/currency"
 	"fmt"
 	"time"
 
@@ -12,21 +13,31 @@ import (
 )
 
 type ClientManager struct {
-	CryptoClient pbCrypto.CryptoServiceClient
+	CryptoClient   pbCrypto.CryptoServiceClient
+	CurrencyClient pbCurrency.CurrencyServiceClient
 
-	cryptoConn *grpc.ClientConn
+	cryptoConn   *grpc.ClientConn
+	currencyConn *grpc.ClientConn
 }
 
-func NewClientManager(cryptoConfig *config.Service) (*ClientManager, error) {
+func NewClientManager(cryptoConfig *config.Service, currencyConfig *config.Service) (*ClientManager, error) {
 	addr := fmt.Sprintf("%s:%s", cryptoConfig.Name, cryptoConfig.GRPCPort)
 	cryptoConn, err := createGRPCConnection(addr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to crypto service: %w", err)
 	}
 
+	addr = fmt.Sprintf("%s:%s", currencyConfig.Name, currencyConfig.GRPCPort)
+	currencyConn, err := createGRPCConnection(addr)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to currency service: %w", err)
+	}
+
 	return &ClientManager{
-		CryptoClient: pbCrypto.NewCryptoServiceClient(cryptoConn),
-		cryptoConn:   cryptoConn,
+		CryptoClient:   pbCrypto.NewCryptoServiceClient(cryptoConn),
+		CurrencyClient: pbCurrency.NewCurrencyServiceClient(currencyConn),
+		cryptoConn:     cryptoConn,
+		currencyConn:   currencyConn,
 	}, nil
 }
 
@@ -51,5 +62,9 @@ func createGRPCConnection(address string) (*grpc.ClientConn, error) {
 func (cm *ClientManager) Close() {
 	if cm.cryptoConn != nil {
 		cm.cryptoConn.Close()
+	}
+
+	if cm.currencyConn != nil {
+		cm.currencyConn.Close()
 	}
 }

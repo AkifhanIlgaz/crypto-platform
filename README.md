@@ -27,7 +27,7 @@ cp .env.example .env
 ### Adım 3: Backendi Çalıştırın
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Adım 4: Frontendi Çalıştırın

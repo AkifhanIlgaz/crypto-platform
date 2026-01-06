@@ -7,5 +7,9 @@ crypto-service:
   name: crypto-service
   grpc_port: 50051
 
+currency-service:
+  name: currency-service
+  grpc_port: 50052
+
 gateway:
   port: 7777

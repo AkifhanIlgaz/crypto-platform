@@ -77,6 +77,20 @@ services:
         condition: service_completed_successfully
     restart: unless-stopped
 
+  currency-service:
+    build:
+      context: .
+      dockerfile: services/currency-service/cmd/Dockerfile
+    container_name: currency-service
+    ports:
+      - "50052:50052"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      vault-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
   api-gateway:
     build:
       context: .

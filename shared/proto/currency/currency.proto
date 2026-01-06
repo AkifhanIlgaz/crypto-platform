@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package currency;
+
+option go_package = "crypto-platform/shared/proto/currency;pbCurrency";
+
+service CurrencyService {
+  rpc GetPriceInfos(GetPriceInfosRequest) returns (GetPriceInfosResponse) {}
+  rpc RefetchPriceInfos(RefetchPriceInfosRequest) returns (RefetchPriceInfosResponse) {}
+}
+
+message GetPriceInfosRequest {}
+
+message RefetchPriceInfosRequest {}
+
+message RefetchPriceInfosResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message GetPriceInfosResponse {
+  repeated Currency currencies = 1;
+}
+
+message Currency {
+  string code = 1;
+  double price = 2;
+  string date = 3;
+}

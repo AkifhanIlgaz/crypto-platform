@@ -38,7 +38,8 @@ func main() {
 
 	cryptoService, err := services.NewCryptoService(cryptoRepository, cfg.Exchanges)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("unable to start crypto service: %s", err.Error())
+		return
 	}
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", cfg.CryptoService.GRPCPort))

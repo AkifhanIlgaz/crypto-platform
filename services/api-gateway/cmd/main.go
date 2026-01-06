@@ -20,7 +20,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	clientManager, err := clients.NewClientManager(&config.CryptoService)
+	clientManager, err := clients.NewClientManager(&config.CryptoService, &config.CurrencyService)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,6 +34,7 @@ func main() {
 		Output:     os.Stdout, //  bir dosyaya veya elasticsearch e yazilabilir
 	})
 	cryptoHandler := handlers.NewCryptoHandler(clientManager.CryptoClient)
+	currencyHandler := handlers.NewCurrencyHandler(clientManager.CurrencyClient)
 
 	app := fiber.New(fiber.Config{
 		AppName:      "Crypto Platform API Gateway",
@@ -51,7 +52,10 @@ func main() {
 	}))
 
 	api := app.Group("/api", logger)
+
 	cryptoHandler.RegisterRoutes(api)
+	currencyHandler.RegisterRoutes(api)
+
 	app.Use(func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"success": false,
