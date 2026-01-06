@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -131,6 +132,8 @@
 }
 
 @theme inline {
+  --font-sans: "Outfit", "Outfit Fallback";
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
