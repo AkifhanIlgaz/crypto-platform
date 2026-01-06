@@ -25,5 +25,4 @@ message GetPriceInfosResponse {
 message Currency {
   string code = 1;
   double price = 2;
-  string date = 3;
 }

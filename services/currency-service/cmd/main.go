@@ -32,11 +32,17 @@ func main() {
 		}
 	}()
 
-	db.AutoMigrate(&models.Currency{})
+	err = db.AutoMigrate(&models.Currency{})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	currencyRepository := repositories.NewCurrencyRepository(db)
 
-	currencyService := services.NewCurrencyService(currencyRepository)
+	currencyService, err := services.NewCurrencyService(currencyRepository)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", cfg.CurrencyService.GRPCPort))
 	if err != nil {

@@ -193,7 +193,6 @@ type Currency struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
 	Price         float64                `protobuf:"fixed64,2,opt,name=price,proto3" json:"price,omitempty"`
-	Date          string                 `protobuf:"bytes,3,opt,name=date,proto3" json:"date,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -242,13 +241,6 @@ func (x *Currency) GetPrice() float64 {
 	return 0
 }
 
-func (x *Currency) GetDate() string {
-	if x != nil {
-		return x.Date
-	}
-	return ""
-}
-
 var File_currency_currency_proto protoreflect.FileDescriptor
 
 const file_currency_currency_proto_rawDesc = "" +
@@ -262,11 +254,10 @@ const file_currency_currency_proto_rawDesc = "" +
 	"\x15GetPriceInfosResponse\x122\n" +
 	"\n" +
 	"currencies\x18\x01 \x03(\v2\x12.currency.CurrencyR\n" +
-	"currencies\"H\n" +
+	"currencies\"4\n" +
 	"\bCurrency\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x14\n" +
-	"\x05price\x18\x02 \x01(\x01R\x05price\x12\x12\n" +
-	"\x04date\x18\x03 \x01(\tR\x04date2\xc5\x01\n" +
+	"\x05price\x18\x02 \x01(\x01R\x05price2\xc5\x01\n" +
 	"\x0fCurrencyService\x12R\n" +
 	"\rGetPriceInfos\x12\x1e.currency.GetPriceInfosRequest\x1a\x1f.currency.GetPriceInfosResponse\"\x00\x12^\n" +
 	"\x11RefetchPriceInfos\x12\".currency.RefetchPriceInfosRequest\x1a#.currency.RefetchPriceInfosResponse\"\x00B2Z0crypto-platform/shared/proto/currency;pbCurrencyb\x06proto3"

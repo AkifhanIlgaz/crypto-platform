@@ -15,14 +15,28 @@ type CurrencyService struct {
 	url        string
 }
 
-func NewCurrencyService(repo repositories.CurrencyRepository) *CurrencyService {
-	return &CurrencyService{
+func NewCurrencyService(repo repositories.CurrencyRepository) (*CurrencyService, error) {
+
+	service := &CurrencyService{
 		repo: repo,
 		httpClient: &http.Client{
 			Timeout: 20 * time.Second,
 		},
 		url: "https://www.tcmb.gov.tr/kurlar/today.xml",
 	}
+
+	currencies, err := service.fetchCurrencies()
+	if err != nil {
+		return nil, fmt.Errorf("unable to fetch currency info from TCMB: %w", err)
+	}
+
+	for _, currency := range currencies {
+		if err := service.repo.SetPriceInfo(&currency); err != nil {
+			return nil, fmt.Errorf("unable to insert currency info to db: %w", err)
+		}
+	}
+
+	return service, nil
 }
 
 func (s *CurrencyService) GetCurrencies() ([]*models.Currency, error) {
@@ -40,6 +54,9 @@ func (s *CurrencyService) RefetchCurrencies() error {
 	}
 
 	for _, currency := range currencies {
+		if currency.Code == "XDR" {
+			continue
+		}
 		if err := s.repo.SetPriceInfo(&currency); err != nil {
 			return fmt.Errorf("unable to insert currency info to db: %w", err)
 		}

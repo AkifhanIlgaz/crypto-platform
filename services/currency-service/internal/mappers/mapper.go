@@ -3,13 +3,11 @@ package mappers
 import (
 	"crypto-platform/services/currency-service/internal/models"
 	pbCurrency "crypto-platform/shared/proto/currency"
-	"time"
 )
 
 func currencyToProto(currency *models.Currency) *pbCurrency.Currency {
 	return &pbCurrency.Currency{
 		Code:  currency.Code,
-		Date:  currency.LastUpdatedAt.Format(time.RFC3339),
 		Price: currency.Price,
 	}
 }

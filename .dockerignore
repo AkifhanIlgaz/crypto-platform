@@ -16,6 +16,3 @@
 *.out
 bin/
 dist/
-
-# Other services
-services/currency-service

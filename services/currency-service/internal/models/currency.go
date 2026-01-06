@@ -13,7 +13,11 @@ type TarihDate struct {
 
 type Currency struct {
 	ID            uint      `gorm:"primaryKey"`
-	LastUpdatedAt time.Time `gorm:"column:last_updated_at;type:datetime;not null"`
-	Code          string    `xml:"CurrencyCode,attr" gorm:"column:code;type:varchar(3);not null"`
-	Price  float64   `xml:"ForexSelling" gorm:"column:price;not null"`
+	LastUpdatedAt time.Time `gorm:"column:last_updated_at;not null"`
+	Code          string    `xml:"CurrencyCode,attr" gorm:"column:code;type:varchar(3);not null;uniqueIndex:idx_currency_code"`
+	Price         float64   `xml:"ForexSelling" gorm:"column:price;not null"`
+}
+
+func (p *Currency) TableName() string {
+	return "currencies"
 }
