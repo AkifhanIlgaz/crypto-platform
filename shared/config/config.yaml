@@ -1,0 +1,11 @@
+vault:
+  address: http://vault:8200
+  token: root
+  mount_path: secret
+
+crypto-service:
+  name: crypto-service
+  grpc_port: 50051
+
+gateway:
+  port: 7777
