@@ -39,7 +39,6 @@ export default function CryptoPage() {
         if (!data || !data.success) {
           throw new Error(data?.message || "Invalid response from server");
         }
-        console.log("Coin data:", data);
 
         return data;
       } catch (error) {
@@ -69,7 +68,6 @@ export default function CryptoPage() {
         }
 
         const data = await res.json();
-        console.log("Currency data:", data);
 
         if (!data || !data.success) {
           throw new Error(data?.message || "Invalid response from server");
