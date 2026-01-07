@@ -88,10 +88,16 @@ func Load() (*Config, error) {
 		return nil, err
 	}
 
+	okx, err := GetExchangeCredentials(vaultClient, "exchange/okx")
+	if err != nil {
+		return nil, err
+	}
+
 	config.Postgres = postgresConfig
 	config.Exchanges = Exchanges{
 		"binance": binance,
 		"kucoin":  kucoin,
+		"okx":     okx,
 	}
 
 	return &config, nil

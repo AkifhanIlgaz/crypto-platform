@@ -31,6 +31,9 @@ func NewCurrencyService(repo repositories.CurrencyRepository) (*CurrencyService,
 	}
 
 	for _, currency := range currencies {
+		if currency.Code == "XDR" {
+			continue
+		}
 		if err := service.repo.SetPriceInfo(&currency); err != nil {
 			return nil, fmt.Errorf("unable to insert currency info to db: %w", err)
 		}

@@ -23,5 +23,9 @@ vault kv put secret/exchange/binance \
     api_key="${BINANCE_API_KEY}" \
     api_secret="${BINANCE_API_SECRET}"
 
+vault kv put secret/exchange/okx \
+    api_key="${OKX_API_KEY}" \
+    api_secret="${OKX_API_SECRET}"
+
 
 echo "Baslangic verileri yüklendi!"

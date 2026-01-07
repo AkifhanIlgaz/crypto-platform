@@ -1,4 +1,5 @@
 import { Exchange } from "@/types";
+import { exchangeColor } from "@/utils/exchangeColor";
 import { formatPrice, formatVolume } from "@/utils/format";
 import { Chip } from "@heroui/chip";
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
@@ -18,7 +19,7 @@ export default function ExchangeCard({
     <div className="flex-1 min-w-[280px] space-y-4">
       <div className="flex items-center justify-between mb-3">
         <Chip
-          color={exchange.exchange === "Binance" ? "warning" : "success"}
+          color={exchangeColor(exchange.exchange)}
           variant="solid"
           size="lg"
           className="font-bold"
