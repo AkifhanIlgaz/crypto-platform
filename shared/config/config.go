@@ -1,8 +1,7 @@
 package config
 
 import (
-	"crypto-platform/shared/vault"
-
+	"github.com/AkifhanIlgaz/crypto-platform/shared/vault"
 	"github.com/spf13/viper"
 )
 

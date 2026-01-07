@@ -1,17 +1,17 @@
 package main
 
 import (
-	grpcServer "crypto-platform/services/currency-service/internal/grpc"
-	"crypto-platform/services/currency-service/internal/models"
-	"crypto-platform/services/currency-service/internal/repositories"
-	"crypto-platform/services/currency-service/internal/services"
-	"crypto-platform/shared/config"
-	"crypto-platform/shared/database"
-	pbCurrency "crypto-platform/shared/proto/currency"
 	"fmt"
 	"log"
 	"net"
 
+	"github.com/AkifhanIlgaz/crypto-platform/shared/config"
+	"github.com/AkifhanIlgaz/crypto-platform/shared/database"
+	pbCurrency "github.com/AkifhanIlgaz/crypto-platform/shared/proto/currency"
+	grpcServer "github.com/AkifhanIlgaz/services/currency-service/internal/grpc"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/models"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/repositories"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/services"
 	"google.golang.org/grpc"
 )
 

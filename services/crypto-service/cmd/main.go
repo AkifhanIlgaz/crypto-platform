@@ -1,17 +1,17 @@
 package main
 
 import (
-	grpcServer "crypto-platform/services/crypto-service/internal/grpc"
-	"crypto-platform/services/crypto-service/internal/models"
-	"crypto-platform/services/crypto-service/internal/repositories"
-	"crypto-platform/services/crypto-service/internal/services"
-	"crypto-platform/shared/config"
-	"crypto-platform/shared/database"
-	pbCrypto "crypto-platform/shared/proto/crypto"
 	"fmt"
 	"log"
 	"net"
 
+	"github.com/AkifhanIlgaz/crypto-platform/shared/config"
+	"github.com/AkifhanIlgaz/crypto-platform/shared/database"
+	pbCrypto "github.com/AkifhanIlgaz/crypto-platform/shared/proto/crypto"
+	grpcServer "github.com/AkifhanIlgaz/services/crypto-service/internal/grpc"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/models"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/repositories"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/services"
 	"google.golang.org/grpc"
 )
 

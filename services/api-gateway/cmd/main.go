@@ -1,14 +1,14 @@
 package main
 
 import (
-	"crypto-platform/services/api-gateway/internal/clients"
-	"crypto-platform/services/api-gateway/internal/handlers"
-	"crypto-platform/shared/config"
 	"fmt"
 	"log"
 	"os"
 	"time"
 
+	"github.com/AkifhanIlgaz/crypto-platform/shared/config"
+	"github.com/AkifhanIlgaz/services/api-gateway/internal/clients"
+	"github.com/AkifhanIlgaz/services/api-gateway/internal/handlers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"

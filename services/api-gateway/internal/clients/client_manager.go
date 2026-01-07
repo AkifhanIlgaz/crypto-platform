@@ -1,12 +1,12 @@
 package clients
 
 import (
-	"crypto-platform/shared/config"
-	pbCrypto "crypto-platform/shared/proto/crypto"
-	pbCurrency "crypto-platform/shared/proto/currency"
 	"fmt"
 	"time"
 
+	"github.com/AkifhanIlgaz/crypto-platform/shared/config"
+	pbCrypto "github.com/AkifhanIlgaz/crypto-platform/shared/proto/crypto"
+	pbCurrency "github.com/AkifhanIlgaz/crypto-platform/shared/proto/currency"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/keepalive"

@@ -1,11 +1,11 @@
 package database
 
 import (
-	"crypto-platform/shared/config"
 	"fmt"
 	"log"
 	"time"
 
+	"github.com/AkifhanIlgaz/crypto-platform/shared/config"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

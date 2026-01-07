@@ -1,8 +1,7 @@
 package repositories
 
 import (
-	"crypto-platform/services/currency-service/internal/models"
-
+	"github.com/AkifhanIlgaz/services/currency-service/internal/models"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )

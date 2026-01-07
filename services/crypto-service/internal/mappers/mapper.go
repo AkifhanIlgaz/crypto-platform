@@ -1,11 +1,11 @@
 package mappers
 
 import (
-	"crypto-platform/services/crypto-service/internal/models"
-	pbCrypto "crypto-platform/shared/proto/crypto"
-	"crypto-platform/shared/utils"
 	"time"
 
+	pbCrypto "github.com/AkifhanIlgaz/crypto-platform/shared/proto/crypto"
+	"github.com/AkifhanIlgaz/crypto-platform/shared/utils"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/models"
 	ccxt "github.com/ccxt/ccxt/go/v4"
 )
 

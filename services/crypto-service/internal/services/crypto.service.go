@@ -1,12 +1,12 @@
 package services
 
 import (
-	"crypto-platform/services/crypto-service/internal/mappers"
-	"crypto-platform/services/crypto-service/internal/models"
-	"crypto-platform/services/crypto-service/internal/repositories"
-	"crypto-platform/shared/config"
 	"fmt"
 
+	"github.com/AkifhanIlgaz/crypto-platform/shared/config"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/mappers"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/models"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/repositories"
 	ccxt "github.com/ccxt/ccxt/go/v4"
 )
 

@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"context"
-	pbCurrency "crypto-platform/shared/proto/currency"
-	"crypto-platform/shared/response"
 	"time"
 
+	"github.com/AkifhanIlgaz/crypto-platform/shared/response"
+
+	pbCurrency "github.com/AkifhanIlgaz/crypto-platform/shared/proto/currency"
 	"github.com/gofiber/fiber/v2"
 )
 

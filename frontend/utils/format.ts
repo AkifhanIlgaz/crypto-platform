@@ -1,6 +1,6 @@
 export const formatDate = (dateNumber: number) => {
   const date = new Date(dateNumber);
-  return date.toLocaleTimeString("tr-TR", {
+  return date?.toLocaleTimeString("tr-TR", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -8,7 +8,7 @@ export const formatDate = (dateNumber: number) => {
 };
 
 export const formatPrice = (price: number) => {
-  return price.toLocaleString("tr-TR", {
+  return price?.toLocaleString("tr-TR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: price < 1 ? 4 : 2,
   });
@@ -22,5 +22,5 @@ export const formatVolume = (volume: number) => {
   } else if (volume >= 1_000) {
     return `${(volume / 1_000).toFixed(2)}K`;
   }
-  return volume.toFixed(2);
+  return volume?.toFixed(2);
 };

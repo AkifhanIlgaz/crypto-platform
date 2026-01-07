@@ -1,8 +1,8 @@
 package mappers
 
 import (
-	"crypto-platform/services/currency-service/internal/models"
-	pbCurrency "crypto-platform/shared/proto/currency"
+	pbCurrency "github.com/AkifhanIlgaz/crypto-platform/shared/proto/currency"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/models"
 )
 
 func currencyToProto(currency *models.Currency) *pbCurrency.Currency {

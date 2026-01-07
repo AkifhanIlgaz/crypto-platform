@@ -1,12 +1,13 @@
 package services
 
 import (
-	"crypto-platform/services/currency-service/internal/models"
-	"crypto-platform/services/currency-service/internal/repositories"
 	"encoding/xml"
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/AkifhanIlgaz/services/currency-service/internal/models"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/repositories"
 )
 
 type CurrencyService struct {

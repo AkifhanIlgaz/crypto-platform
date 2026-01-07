@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
-	pbCrypto "crypto-platform/shared/proto/crypto"
-	"crypto-platform/shared/response"
+
+	"github.com/AkifhanIlgaz/crypto-platform/shared/response"
+
 	"time"
 
+	pbCrypto "github.com/AkifhanIlgaz/crypto-platform/shared/proto/crypto"
 	"github.com/gofiber/fiber/v2"
 )
 

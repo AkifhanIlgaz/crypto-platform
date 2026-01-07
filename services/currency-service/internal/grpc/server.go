@@ -2,10 +2,10 @@ package grpc
 
 import (
 	"context"
-	"crypto-platform/services/currency-service/internal/mappers"
-	"crypto-platform/services/currency-service/internal/services"
-	pbCurrency "crypto-platform/shared/proto/currency"
 
+	pbCurrency "github.com/AkifhanIlgaz/crypto-platform/shared/proto/currency"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/mappers"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/services"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

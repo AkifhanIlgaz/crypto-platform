@@ -2,10 +2,10 @@ package grpc
 
 import (
 	"context"
-	"crypto-platform/services/crypto-service/internal/mappers"
-	"crypto-platform/services/crypto-service/internal/services"
-	pbCrypto "crypto-platform/shared/proto/crypto"
 
+	pbCrypto "github.com/AkifhanIlgaz/crypto-platform/shared/proto/crypto"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/mappers"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/services"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
