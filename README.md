@@ -1,16 +1,3 @@
-
-
-## 🚀 Kurulum ve Çalıştırma
-
-### Ön Gereksinimler
-
-Sisteminizde aşağıdaki yazılımların kurulu olması gerekmektedir:
-
-- [Docker](https://docs.docker.com/get-docker/) (v20.10+)
-- [Docker Compose](https://docs.docker.com/compose/install/) (v2.0+)
-
-*Not: Local development için Go 1.21+ ve Node.js 20+ gereklidir.*
-
 ### Adım 1: Projeyi İndirin
 
 ```bash
