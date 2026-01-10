@@ -5,12 +5,12 @@ import (
 
 	pbCrypto "github.com/AkifhanIlgaz/crypto-platform/shared/proto/crypto"
 	"github.com/AkifhanIlgaz/crypto-platform/shared/utils"
-	"github.com/AkifhanIlgaz/services/crypto-service/internal/models"
+	"github.com/AkifhanIlgaz/services/crypto-service/internal/core/domain"
 	ccxt "github.com/ccxt/ccxt/go/v4"
 )
 
-func TickerToPriceInfo(ticker ccxt.Ticker, exchange string) *models.PriceInfo {
-	return &models.PriceInfo{
+func TickerToPriceInfo(ticker ccxt.Ticker, exchange string) *domain.PriceInfo {
+	return &domain.PriceInfo{
 		Symbol:        utils.GetValueOrDefault(ticker.Symbol),
 		High:          utils.GetValueOrDefault(ticker.High),
 		Low:           utils.GetValueOrDefault(ticker.Low),
@@ -26,7 +26,7 @@ func TickerToPriceInfo(ticker ccxt.Ticker, exchange string) *models.PriceInfo {
 	}
 }
 
-func priceInfoToProto(priceInfo *models.PriceInfo) *pbCrypto.ExchangePrice {
+func priceInfoToProto(priceInfo *domain.PriceInfo) *pbCrypto.ExchangePrice {
 	return &pbCrypto.ExchangePrice{
 		High:          priceInfo.High,
 		Low:           priceInfo.Low,
@@ -42,7 +42,7 @@ func priceInfoToProto(priceInfo *models.PriceInfo) *pbCrypto.ExchangePrice {
 	}
 }
 
-func PriceInfosToExchangePriceListMap(priceInfos []*models.PriceInfo) map[string]*pbCrypto.ExchangePriceList {
+func PriceInfosToExchangePriceListMap(priceInfos []*domain.PriceInfo) map[string]*pbCrypto.ExchangePriceList {
 	priceInfoMap := make(map[string]*pbCrypto.ExchangePriceList)
 	for _, priceInfo := range priceInfos {
 		list, ok := priceInfoMap[priceInfo.Symbol]
