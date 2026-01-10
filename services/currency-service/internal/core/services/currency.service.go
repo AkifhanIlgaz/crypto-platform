@@ -6,17 +6,17 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/AkifhanIlgaz/services/currency-service/internal/models"
-	"github.com/AkifhanIlgaz/services/currency-service/internal/repositories"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/core/domain"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/ports/output"
 )
 
 type CurrencyService struct {
-	repo       repositories.CurrencyRepository
+	repo       output.CurrencyRepository
 	httpClient *http.Client
 	url        string
 }
 
-func NewCurrencyService(repo repositories.CurrencyRepository) (*CurrencyService, error) {
+func NewCurrencyService(repo output.CurrencyRepository) (*CurrencyService, error) {
 
 	service := &CurrencyService{
 		repo: repo,
@@ -43,7 +43,7 @@ func NewCurrencyService(repo repositories.CurrencyRepository) (*CurrencyService,
 	return service, nil
 }
 
-func (s *CurrencyService) GetCurrencies() ([]*models.Currency, error) {
+func (s *CurrencyService) GetCurrencies() ([]*domain.Currency, error) {
 	currencies, err := s.repo.GetPriceInfo()
 	if err != nil {
 		return nil, err
@@ -69,14 +69,14 @@ func (s *CurrencyService) RefetchCurrencies() error {
 	return nil
 }
 
-func (s *CurrencyService) fetchCurrencies() ([]models.Currency, error) {
+func (s *CurrencyService) fetchCurrencies() ([]domain.Currency, error) {
 	res, err := s.httpClient.Get(s.url)
 	if err != nil {
 		return nil, fmt.Errorf("❌ Hata: Döviz verileri alınamadı: %w", err)
 	}
 	defer res.Body.Close()
 
-	var tarihDate models.TarihDate
+	var tarihDate domain.TarihDate
 	decoder := xml.NewDecoder(res.Body)
 
 	err = decoder.Decode(&tarihDate)

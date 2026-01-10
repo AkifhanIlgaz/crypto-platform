@@ -8,10 +8,10 @@ import (
 	"github.com/AkifhanIlgaz/crypto-platform/shared/config"
 	"github.com/AkifhanIlgaz/crypto-platform/shared/database"
 	pbCurrency "github.com/AkifhanIlgaz/crypto-platform/shared/proto/currency"
-	grpcServer "github.com/AkifhanIlgaz/services/currency-service/internal/grpc"
-	"github.com/AkifhanIlgaz/services/currency-service/internal/models"
-	"github.com/AkifhanIlgaz/services/currency-service/internal/repositories"
-	"github.com/AkifhanIlgaz/services/currency-service/internal/services"
+	grpcHandler "github.com/AkifhanIlgaz/services/currency-service/internal/adapters/input/grpc"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/adapters/output/postgres"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/core/services"
+
 	"google.golang.org/grpc"
 )
 
@@ -32,12 +32,12 @@ func main() {
 		}
 	}()
 
-	err = db.AutoMigrate(&models.Currency{})
+	err = db.AutoMigrate(&postgres.CurrencyEntity{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	currencyRepository := repositories.NewCurrencyRepository(db)
+	currencyRepository := postgres.NewCurrencyRepository(db)
 
 	currencyService, err := services.NewCurrencyService(currencyRepository)
 	if err != nil {
@@ -50,7 +50,7 @@ func main() {
 	}
 
 	grpcSrv := grpc.NewServer()
-	pbCurrency.RegisterCurrencyServiceServer(grpcSrv, grpcServer.NewCurrencyServer(currencyService))
+	pbCurrency.RegisterCurrencyServiceServer(grpcSrv, grpcHandler.NewCurrencyHandler(currencyService))
 
 	log.Printf("Currency Service gRPC server listening on :%v", cfg.CurrencyService.GRPCPort)
 	if err := grpcSrv.Serve(lis); err != nil {

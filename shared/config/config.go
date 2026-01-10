@@ -94,9 +94,9 @@ func Load() (*Config, error) {
 
 	config.Postgres = postgresConfig
 	config.Exchanges = Exchanges{
-		"binance": binance,
-		"kucoin":  kucoin,
-		"okx":     okx,
+		"Binance": binance,
+		"Kucoin":  kucoin,
+		"Okx":     okx,
 	}
 
 	return &config, nil

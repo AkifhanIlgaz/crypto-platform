@@ -2,6 +2,7 @@ package exchange
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/AkifhanIlgaz/services/crypto-service/internal/core/domain"
 	ccxt "github.com/ccxt/ccxt/go/v4"
@@ -21,11 +22,11 @@ func NewCCXTAdapter(name string, config map[string]any) (*ccxtAdapter, error) {
 	var exchange ccxtExchangeInterface
 
 	switch name {
-	case "kucoin":
+	case "Kucoin":
 		exchange = ccxt.NewKucoin(config)
-	case "binance":
+	case "Binance":
 		exchange = ccxt.NewBinance(config)
-	case "okx":
+	case "Okx":
 		exchange = ccxt.NewOkx(config)
 	default:
 		return nil, fmt.Errorf("unsupported exchange: %s", name)
@@ -37,7 +38,7 @@ func NewCCXTAdapter(name string, config map[string]any) (*ccxtAdapter, error) {
 
 	adapter := &ccxtAdapter{
 		exchange: exchange,
-		name:     name,
+		name:     strings.ToUpper(name[:1]) + name[1:],
 	}
 
 	if err := adapter.LoadMarkets(); err != nil {
