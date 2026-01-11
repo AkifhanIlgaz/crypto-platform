@@ -214,7 +214,10 @@ export default function CryptoPage() {
       </div>
 
       <Accordion variant="splitted" selectionMode="multiple" className="px-0">
-        {Object.entries(cryptoData.data.prices).map(([coinPair, coinData]) => {
+        {(cryptoData?.data.prices
+          ? Object.entries(cryptoData?.data.prices)
+          : []
+        ).map(([coinPair, coinData]) => {
           const [baseCoin] = coinPair.split("/");
           const firstExchange = coinData.exchanges[0];
           const isPositive = firstExchange.change_percent >= 0;
