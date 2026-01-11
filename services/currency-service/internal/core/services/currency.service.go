@@ -1,29 +1,22 @@
 package services
 
 import (
-	"encoding/xml"
 	"fmt"
-	"net/http"
-	"time"
 
 	"github.com/AkifhanIlgaz/services/currency-service/internal/core/domain"
 	"github.com/AkifhanIlgaz/services/currency-service/internal/ports/output"
 )
 
 type CurrencyService struct {
-	repo       output.CurrencyRepository
-	httpClient *http.Client
-	url        string
+	repo           output.CurrencyRepository
+	currencyClient output.CurrencyClient
 }
 
-func NewCurrencyService(repo output.CurrencyRepository) (*CurrencyService, error) {
+func NewCurrencyService(repo output.CurrencyRepository, currencyClient output.CurrencyClient) (*CurrencyService, error) {
 
 	service := &CurrencyService{
-		repo: repo,
-		httpClient: &http.Client{
-			Timeout: 20 * time.Second,
-		},
-		url: "https://www.tcmb.gov.tr/kurlar/today.xml",
+		repo:           repo,
+		currencyClient: currencyClient,
 	}
 
 	currencies, err := service.fetchCurrencies()
@@ -70,19 +63,10 @@ func (s *CurrencyService) RefetchCurrencies() error {
 }
 
 func (s *CurrencyService) fetchCurrencies() ([]domain.Currency, error) {
-	res, err := s.httpClient.Get(s.url)
+	currencies, err := s.currencyClient.GetCurrencies()
 	if err != nil {
 		return nil, fmt.Errorf("❌ Hata: Döviz verileri alınamadı: %w", err)
 	}
-	defer res.Body.Close()
 
-	var tarihDate domain.TarihDate
-	decoder := xml.NewDecoder(res.Body)
-
-	err = decoder.Decode(&tarihDate)
-	if err != nil {
-		return nil, fmt.Errorf("❌ Hata: XML verisi decode edilemedi: %w", err)
-	}
-
-	return tarihDate.Currencies, nil
+	return currencies, nil
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/AkifhanIlgaz/crypto-platform/shared/database"
 	pbCurrency "github.com/AkifhanIlgaz/crypto-platform/shared/proto/currency"
 	grpcHandler "github.com/AkifhanIlgaz/services/currency-service/internal/adapters/input/grpc"
+	"github.com/AkifhanIlgaz/services/currency-service/internal/adapters/output/currency"
 	"github.com/AkifhanIlgaz/services/currency-service/internal/adapters/output/postgres"
 	"github.com/AkifhanIlgaz/services/currency-service/internal/core/services"
 
@@ -38,8 +39,9 @@ func main() {
 	}
 
 	currencyRepository := postgres.NewCurrencyRepository(db)
+	currencyClient := currency.NewCurrencyClient()
 
-	currencyService, err := services.NewCurrencyService(currencyRepository)
+	currencyService, err := services.NewCurrencyService(currencyRepository, currencyClient)
 	if err != nil {
 		log.Fatal(err)
 	}

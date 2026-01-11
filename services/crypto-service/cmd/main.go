@@ -74,12 +74,12 @@ func initializeExchanges(exchangeConfigs config.Exchanges) []output.ExchangeClie
 		})
 
 		if err != nil {
-			log.Printf("⚠️  Failed to initialize %s: %v", name, err)
+			log.Printf("Failed to initialize %s: %v", name, err)
 			continue
 		}
 
 		exchanges = append(exchanges, adapter)
-		log.Printf("✅ Successfully initialized %s", name)
+		log.Printf("Successfully initialized %s", name)
 	}
 
 	return exchanges
